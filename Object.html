@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Object</title>
+</head>
+<body>
+	<script>
+    	var console =console||{ log: function () { return; } };//为了console.log兼容ie
+    	//创建对象
+		var obj1 = {a:1,b:2,c:3},//对象直接量
+			obj2 = new Object({a:11,b:22,c:33}),
+			obj3 = Object.create(Array.prototype)//ES5中  创建一个原型为数组的对象;
+		console.log(obj1.a,obj1["c"])
+		obj1.d = 4;
+		obj1["e"] = 5;
+		obj1["class"] = "保留字用方括号,方括号中必须为字符串";
+		//自动创建不同对象
+		var i=1;
+		function test(){
+			var obj="o"+i;
+			obj = {a:i};
+			console.log(obj)
+			i++;
+			if(i>10){
+				return;
+			}else {
+				test()
+			}	
+		}
+
+		//---------------------
+		var o = {x:1},
+			p = Object.create(o),
+			q = Object.create(p,{z:{value:3}}),
+			s = q.toString(),
+			arr = new Array();
+		p.y = 3;
+		for(n in q){//对象遍历可枚举的属性，包括继承的属性
+			console.log(n)
+		}
+		function Afn(){}
+		console.log(Array.prototype)
+		console.log(typeof p)
+		console.log(q.constructor==Object)//获取q继承的构造函数
+		console.log(Afn.prototype)
+		console.log(q instanceof Array)//判断q是否继承自Array的原型
+		console.log(o.isPrototypeOf(p))//判断o是否是p的原型
+		console.log("toString" in o)//true,判断对象中是否有该属性，包括继承的属性
+		console.log(o.hasOwnProperty("x"));//ture,判断是否是自有属性
+		console.log(Object.keys(o));//返回可枚举的自有属性的数组
+		console.log(Object.getOwnPropertyNames(o));//返回所有的自有属性数组
+		console.log(Object.getOwnPropertyDescriptor(o, "x"));//返回对象某个自有属性的属性描述符 value writable enumerable configurable四个属性描述
+		Object.defineProperty(o,"x", {value:10,writable:true,enumerable:false,configurable:true})//设置属性描述符
+		Object.defineProperties(o,{x:{value:11},y:{value:10},z:{value:1}})//同时修改多个属性的描述符
+		console.log(Object.getPrototypeOf(o),o.constructor.prototype);//es5查询原型
+		
+
+		//---------get,set----------
+		var m = {
+			prop:10,
+			get accessor(){
+				return this.prop;
+			},
+			set accessor(value){
+				this.prop = value;
+			}
+		}
+		console.log(m);
+		console.log(Object.getOwnPropertyDescriptor(m, "accessor"));//es5
+		m.__defineGetter__("bbb",function () {
+			return this.prop;
+		})//非标准的
+		console.log(m.__lookupGetter__("bbb"))
+
+
+		//--------------------
+		var a = {p:{x:1}};
+		delete(a.p);
+		var	b = a.p;
+		console.log(a,b)		
+
+		//对象序列化--JSON对象表示法
+		var j = {x:1,y:{z:[1,false,null,""]}};
+		var jStr = JSON.stringify(j);//将对象转换为字符串
+		var jObj = JSON.parse(jStr);//将字符串转换为对象
+		console.log(jStr,jObj)
+
+
+
+	</script>
+</body>
+</html>

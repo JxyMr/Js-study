@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<script>
+	//1.使用对象作为命名空间,将变量和值作为对象属性存储
+		var Set = {
+			a:1,
+			b:function () {
+				 console.log(Set.a)
+			}
+		};
+	//2.定义在函数内部
+		var set1 = (function(){
+			function Set1(){
+				this.value  = {a:1};
+				this.n = 0;
+			}
+			Set1.prototype = {
+				add:function(){
+					console.log(this.value);
+				}
+			}
+			 return new Set1();
+			//return Set1;
+		}());
+		/*var j=new set1();
+			j.add()*/
+		 set1.add(1,2,3,4,5,6)
+	//3.
+
+	</script>
+</body>
+</html>
